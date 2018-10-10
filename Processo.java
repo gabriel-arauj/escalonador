@@ -1,39 +1,37 @@
 
 public class Processo {
 	int idProcesso;
-	double tempoChegada;
-	double bustTime;
+	long tempoChegada;
+	long bustTime;
 	int prioridade;
+	long tempoTermino;	
+	Enum<Estados> estado;
 	
 	public int getIdProcesso() {
 		return idProcesso;
 	}
-	public void setIdProcesso(int idProcesso) {
-		this.idProcesso = idProcesso;
-	}
-	public double getTempoChegada() {
+	public long getTempoChegada() {
 		return tempoChegada;
 	}
-	public void setTempoChegada(double tempoChegada) {
-		this.tempoChegada = tempoChegada;
-	}
-	public double getBustTime() {
+
+	public long getBustTime() {
 		return bustTime;
 	}
-	public void setBustTime(double bustTime) {
-		this.bustTime = bustTime;
-	}
+
 	public int getPrioridade() {
 		return prioridade;
 	}
-	public void setPrioridade(int prioridade) {
-		this.prioridade = prioridade;
-	}
-	public Processo(int idProcesso, double tempoChegada, double bustTime, int prioridade) {
+
+	public Processo(int idProcesso, long tempoChegada, long bustTime, int prioridade) {
 		this.idProcesso = idProcesso;
 		this.tempoChegada = tempoChegada;
 		this.bustTime = bustTime;
 		this.prioridade = prioridade;
+		this.estado = Estados.NOVO;
+	}
+	public void terminar(long termino) {
+		tempoTermino = termino;
+		estado = Estados.TERMINADO;
 	}
 	
 	
