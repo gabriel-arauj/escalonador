@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class FCFS extends AbstractEscalonador{
 
@@ -13,22 +14,24 @@ public class FCFS extends AbstractEscalonador{
 			return false;
 		else {
 			long bust = p.getBustTime();
-			//System.out.println(bust);
 			for(int i = 0; i < bust; i++) {
 				tempoTotal++;
+				bustTotal++;
 			}
 			p.terminar(tempoTotal);
+			iteratorProntos.remove();
+			terminados.add(p);
 		}
 		return true;
 	}
 
 	@Override
 	public Processo CPUEscalonador() {
-		while(iteratorProntos.hasNext()) {
+		iteratorProntos = prontos.iterator();
+		if(iteratorProntos.hasNext()){
 			Processo p = iteratorProntos.next();
-			if(p.estado == Estados.PRONTO) {
-				return p;
-			}
+			troca++;
+			return p;
 		}
 		return null;
 	}

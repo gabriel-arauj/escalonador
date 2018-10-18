@@ -3,8 +3,6 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Iterator;
-
 
 public class escalonador {
 
@@ -13,6 +11,7 @@ public class escalonador {
 	static String adicional;
 	static int tipoEstat;
 	static ArrayList<Processo> processos = new ArrayList<Processo>();
+	
 
 	static void parse(String[] args) throws IOException{
 		try {
@@ -39,12 +38,19 @@ public class escalonador {
 		} 
 		br.close(); 
 	}	
+	public static void estatisticas(AbstractEscalonador e){
+		System.out.println("Tempo total de processamento: " + e.tempoTotal);
+		System.out.println("pecentual de utilização do CPU: " + 100*e.bustTotal/e.tempoTotal + "%");
+		System.out.println("pecentual de utilização do CPU: " + 100*(e.tempoTotal-e.troca)/e.tempoTotal + "%");
+		for(Processo p: e.terminados){
+			System.out.println();
+		}
+	}
 
 	public static void main(String[] args) throws IOException{
 		parse(args);
 		AbstractEscalonador e = new FCFS(processos);
 		e.init();
-		//Iterator<Processo> iteratorTodos = processos.iterator();
-		System.out.println(e.tempoTotal);
+		estatisticas(e);
 	}
 }
