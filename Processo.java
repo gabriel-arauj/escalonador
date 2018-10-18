@@ -1,15 +1,17 @@
 
 public class Processo {
-	int idProcesso;
-	long tempoChegada;
-	long bustTime;
-	int prioridade;
-	long tempoTermino;	
-	Enum<Estados> estado;
-	
+	private int idProcesso;
+	private long tempoChegada;
+	private long bustTime;
+	private int prioridade;
+	private long tempoTermino;
+	private long tempoInit;
+	private Enum<Estados> estado;
+
 	public int getIdProcesso() {
 		return idProcesso;
 	}
+
 	public long getTempoChegada() {
 		return tempoChegada;
 	}
@@ -27,13 +29,33 @@ public class Processo {
 		this.tempoChegada = tempoChegada;
 		this.bustTime = bustTime;
 		this.prioridade = prioridade;
-		this.estado = Estados.NOVO;
+		this.setEstado(Estados.NOVO);
+		this.tempoInit = -1;
 	}
+
+	public long getTempoTermino() {
+		return tempoTermino;
+	}
+
 	public void terminar(long termino) {
 		tempoTermino = termino;
-		estado = Estados.TERMINADO;
+		setEstado(Estados.TERMINADO);
 	}
-	
-	
-	
+
+	public long getTempoInit() {
+		return tempoInit;
+	}
+
+	public void setTempoInit(long tempoInit) {
+		this.tempoInit = tempoInit;
+	}
+
+	public Enum<Estados> getEstado() {
+		return estado;
+	}
+
+	public void setEstado(Enum<Estados> estado) {
+		this.estado = estado;
+	}
+
 }

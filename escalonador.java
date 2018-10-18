@@ -11,9 +11,8 @@ public class escalonador {
 	static String adicional;
 	static int tipoEstat;
 	static ArrayList<Processo> processos = new ArrayList<Processo>();
-	
 
-	static void parse(String[] args) throws IOException{
+	static void parse(String[] args) throws IOException {
 		try {
 			caminho = args[0];
 			tEscalonador = args[1];
@@ -21,13 +20,13 @@ public class escalonador {
 		} catch (Exception e) {
 			throw new IllegalArgumentException();
 		}
-		if(tEscalonador.equals("RR")) {
+		if (tEscalonador.equals("RR")) {
 
 		}
-		
-		BufferedReader br = new BufferedReader(new FileReader(new File("").getAbsolutePath() + "/" + caminho)); 
-		while(br.ready()){ 
-			String linha = br.readLine(); 
+
+		BufferedReader br = new BufferedReader(new FileReader(new File("").getAbsolutePath() + "/" + caminho));
+		while (br.ready()) {
+			String linha = br.readLine();
 			String dados[] = linha.split("[,;]");
 			long tempoChegada = Long.parseLong(dados[0]);
 			int idProcesso = Integer.parseInt(dados[1]);
@@ -35,19 +34,21 @@ public class escalonador {
 			int prioridade = Integer.parseInt(dados[3]);
 			Processo p = new Processo(idProcesso, tempoChegada, bustTime, prioridade);
 			processos.add(p);
-		} 
-		br.close(); 
-	}	
-	public static void estatisticas(AbstractEscalonador e){
-		System.out.println("Tempo total de processamento: " + e.tempoTotal);
-		System.out.println("pecentual de utilização do CPU: " + 100*e.bustTotal/e.tempoTotal + "%");
-		System.out.println("pecentual de utilização do CPU: " + 100*(e.tempoTotal-e.troca)/e.tempoTotal + "%");
-		for(Processo p: e.terminados){
+		}
+		br.close();
+	}
+
+	public static void estatisticas(AbstractEscalonador e) {
+		Estatisticas est = new Estatisticas(e);
+		System.out.println("Tempo total de processamento: " + est.tempoTotal());
+		System.out.format("pecentual de utilização do CPU: %.2f%% %n", est.utilCPU());
+		System.out.println("pecentual de utilização do CPU: " + 100 * (e.getTempoTotal() - e.getTroca()) / e.getTempoTotal() + "%");
+		for (Processo p : e.terminados) {
 			System.out.println();
 		}
 	}
 
-	public static void main(String[] args) throws IOException{
+	public static void main(String[] args) throws IOException {
 		parse(args);
 		AbstractEscalonador e = new FCFS(processos);
 		e.init();
