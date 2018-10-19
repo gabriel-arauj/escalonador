@@ -3,9 +3,38 @@ import java.util.Iterator;
 
 public abstract class AbstractEscalonador {
     protected long bustTotal;
-    protected long tempoTotal;
+    protected long tempoTotal = 0;
     protected int quantProcess;
     protected long troca;
+    ArrayList<Processo> processos = new ArrayList<Processo>();
+	ArrayList<Processo> prontos = new ArrayList<Processo>();
+	ArrayList<Processo> terminados = new ArrayList<Processo>();
+	Iterator<Processo> iteratorProntos;
+	
+	
+	public void jobEscalonador() {
+		Iterator<Processo> iteratorProcessos = processos.iterator();
+		while (iteratorProcessos.hasNext()) {
+			Processo p = iteratorProcessos.next();
+			if (p.getEstado() == Estados.NOVO && p.getTempoChegada() <= tempoTotal) {
+				p.setEstado(Estados.PRONTO);
+				prontos.add(p);
+				iteratorProcessos.remove();
+			}
+		}
+	}
+	
+	public void init() {
+		while (quantProcess != terminados.size()) {
+			jobEscalonador();
+			Processo p = CPUEscalonador();
+			run(p);
+		}
+		tempoTotal--; //troca do primeiro processo
+		troca--; //troca do primeiro processo
+
+	}
+	
 	public long getBustTotal() {
 		return bustTotal;
 	}
@@ -38,39 +67,14 @@ public abstract class AbstractEscalonador {
 		this.troca = troca;
 	}
 
-	ArrayList<Processo> processos = new ArrayList<Processo>();
-	ArrayList<Processo> prontos = new ArrayList<Processo>();
-	ArrayList<Processo> terminados = new ArrayList<Processo>();
-	Iterator<Processo> iteratorProntos;
+	
 
 	public AbstractEscalonador(ArrayList<Processo> processos) {
 		this.processos = processos;
 		quantProcess = processos.size();
 	}
 
-	public void jobEscalonador() {
-		Iterator<Processo> iteratorProcessos = processos.iterator();
-		while (iteratorProcessos.hasNext()) {
-			Processo p = iteratorProcessos.next();
-			if (p.getEstado() == Estados.NOVO && p.getTempoChegada() <= tempoTotal) {
-				p.setEstado(Estados.PRONTO);
-				prontos.add(p);
-				iteratorProcessos.remove();
-			}
-		}
-	}
-
-	public void init() {
-		while (quantProcess != terminados.size()) {
-			jobEscalonador();
-			Processo p = CPUEscalonador();
-			run(p);
-		}
-		tempoTotal--;
-		troca--;
-
-	}
-
+	
 	public abstract boolean run(Processo p);
 
 	public abstract Processo CPUEscalonador();

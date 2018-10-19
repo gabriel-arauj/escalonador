@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.Iterator;
 
 public class FCFS extends AbstractEscalonador {
 
@@ -9,11 +8,11 @@ public class FCFS extends AbstractEscalonador {
 
 	@Override
 	public boolean run(Processo p) {
-
-		if (p == null)
+		if (p == null) {
+			tempoTotal++; //tempo total
 			return false;
-		else {
-			if(p.getTempoInit() == -1)
+		}else {
+			if(p.getEstado() == Estados.PRONTO)
 				p.setTempoInit(tempoTotal);
 			long bust = p.getBustTime();
 			for (int i = 0; i < bust; i++) {
@@ -21,9 +20,9 @@ public class FCFS extends AbstractEscalonador {
 				bustTotal++;
 			}
 			p.terminar(tempoTotal);
-			iteratorProntos.remove();
 			terminados.add(p);
-			tempoTotal++; //esse temppo é pra troca de contexto
+			tempoTotal++; //tempo total
+			
 		}
 		return true;
 	}
@@ -34,6 +33,7 @@ public class FCFS extends AbstractEscalonador {
 		if (iteratorProntos.hasNext()) {
 			Processo p = iteratorProntos.next();
 			troca++;
+			iteratorProntos.remove();
 			return p;
 		}
 		return null;

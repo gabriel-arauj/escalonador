@@ -7,6 +7,7 @@ public class Processo {
 	private long tempoTermino;
 	private long tempoInit;
 	private Enum<Estados> estado;
+	private long realBust;
 
 	public int getIdProcesso() {
 		return idProcesso;
@@ -28,9 +29,18 @@ public class Processo {
 		this.idProcesso = idProcesso;
 		this.tempoChegada = tempoChegada;
 		this.bustTime = bustTime;
+		this.realBust = bustTime;
 		this.prioridade = prioridade;
 		this.setEstado(Estados.NOVO);
 		this.tempoInit = -1;
+	}
+
+	public long getRealBust() {
+		return realBust;
+	}
+
+	public void setRealBust(long realBust) {
+		this.realBust = realBust;
 	}
 
 	public long getTempoTermino() {
@@ -47,6 +57,7 @@ public class Processo {
 	}
 
 	public void setTempoInit(long tempoInit) {
+		this.estado = Estados.RODANDO;
 		this.tempoInit = tempoInit;
 	}
 
