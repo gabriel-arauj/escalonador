@@ -11,6 +11,10 @@ public abstract class AbstractEscalonador {
 	ArrayList<Processo> terminados = new ArrayList<Processo>();
 	Iterator<Processo> iteratorProntos;
 	
+	public AbstractEscalonador(ArrayList<Processo> processos) {
+		this.processos = processos;
+		quantProcess = processos.size();
+	}
 	
 	public void jobEscalonador() {
 		Iterator<Processo> iteratorProcessos = processos.iterator();
@@ -30,9 +34,6 @@ public abstract class AbstractEscalonador {
 			Processo p = CPUEscalonador();
 			run(p);
 		}
-		tempoTotal--; //troca do primeiro processo
-		troca--; //troca do primeiro processo
-
 	}
 	
 	public long getBustTotal() {
@@ -66,16 +67,8 @@ public abstract class AbstractEscalonador {
 	public void setTroca(long troca) {
 		this.troca = troca;
 	}
-
 	
-
-	public AbstractEscalonador(ArrayList<Processo> processos) {
-		this.processos = processos;
-		quantProcess = processos.size();
-	}
-
-	
-	public abstract boolean run(Processo p);
+	public abstract void run(Processo p);
 
 	public abstract Processo CPUEscalonador();
 

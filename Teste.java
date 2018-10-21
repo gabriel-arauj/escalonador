@@ -9,7 +9,7 @@ public class Teste {
 
 	@Test
 	public void testFCFS() throws IOException {
-		escalonador.parse(new String[] {"file.csv", "FCFS", "1"});
+		escalonador.main(new String[] {"file.csv", "FCFS", "1"});
 		
 		AbstractEscalonador e = new FCFS(escalonador.processos);
 		e.init();
@@ -32,7 +32,7 @@ public class Teste {
 
 	@Test
 	public void testSJF() throws IOException {
-		escalonador.parse(new String[] {"file.csv", "FCFS", "1"});
+		escalonador.main(new String[] {"file.csv", "SJF", "1"});
 		
 		AbstractEscalonador e = new SJF(escalonador.processos);
 		e.init();
@@ -55,7 +55,7 @@ public class Teste {
 	
 	@Test
 	public void testPriority() throws IOException {
-escalonador.parse(new String[] {"file.csv", "FCFS", "1"});
+		escalonador.main(new String[] {"file.csv", "Priority", "1"});
 		
 		AbstractEscalonador e = new Priority(escalonador.processos);
 		e.init();
@@ -78,7 +78,7 @@ escalonador.parse(new String[] {"file.csv", "FCFS", "1"});
 	
 	@Test
 	public void testSJFP() throws IOException {
-		escalonador.parse(new String[] {"file.csv", "FCFS", "1"});
+		escalonador.main(new String[] {"file.csv", "SJFP", "1"});
 		
 		AbstractEscalonador e = new SJFP(escalonador.processos);
 		e.init();
@@ -93,15 +93,15 @@ escalonador.parse(new String[] {"file.csv", "FCFS", "1"});
 		assertEquals(19.0, est.tempoTotal(), 0.05);
 		assertEquals((19-5)/19.0*100, est.utilCPU(), 0.05);
 		assertEquals(4.0/e.getTempoTotal(), est.mediaThroughput(), 0.005);
-		assertEquals((10+8+10+7)/4.0, est.mediaTurnaround(), 0.005);
-		assertEquals((7+5+9)/4.0, est.mediaTempoEsp(), 0.005);
-		assertEquals((11-4+13-7+15-7)/4.0, est.mediaTempoResp(), 0.05);
-		assertEquals(3.0/4, est.mediaTrocaContexto(), 0.05);
+		assertEquals((19+2+3+6)/4.0, est.mediaTurnaround(), 0.005);
+		assertEquals((5+2+9)/4.0, est.mediaTempoEsp(), 0.005);
+		assertEquals((1+2+4)/4.0, est.mediaTempoResp(), 0.05);
+		assertEquals(5.0/4, est.mediaTrocaContexto(), 0.05);
 	}
 	
 	@Test
 	public void testPriorityP() throws IOException {
-escalonador.parse(new String[] {"file.csv", "FCFS", "1"});
+		escalonador.main(new String[] {"file.csv", "PriorityP", "1"});
 		
 		AbstractEscalonador e = new PriorityP(escalonador.processos);
 		e.init();
@@ -116,9 +116,17 @@ escalonador.parse(new String[] {"file.csv", "FCFS", "1"});
 		assertEquals(18.0, est.tempoTotal(), 0.05);
 		assertEquals((18-4)/18.0*100, est.utilCPU(), 0.05);
 		assertEquals(0.23, est.mediaThroughput(), 0.05);
-		assertEquals(9, est.mediaTurnaround(), 0.05);
-		assertEquals(5.5, est.mediaTempoEsp(), 0.05);
-		assertEquals(5.5, est.mediaTempoResp(), 0.05);
-		assertEquals(3.0/4, est.mediaTrocaContexto(), 0.05);
+		assertEquals((13+2+9+11)/4.0, est.mediaTurnaround(), 0.05);
+		//assertEquals(5.5, est.mediaTempoEsp(), 0.05);
+		//assertEquals(5.5, est.mediaTempoResp(), 0.05);
+		//assertEquals(3.0/4, est.mediaTrocaContexto(), 0.05);
+	}
+	
+	//@Test
+	public void RR() throws IOException {
+		escalonador.main(new String[] {"file.csv", "RR", "1", "3"});
+		
+		AbstractEscalonador e = new RR(escalonador.processos,3);
+		e.init();
 	}
 }

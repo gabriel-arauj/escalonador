@@ -1,26 +1,20 @@
 import java.util.ArrayList;
 
 public class PriorityP extends AbstractEscalonador  {
-	
+
 	Processo antigoP = null;
 	public PriorityP(ArrayList<Processo> processos) {
 		super(processos);
 	}
 
 	@Override
-	public boolean run(Processo p) {
+	public void run(Processo p) {
 		if (p == null) {
 			tempoTotal++; 
-			return false;
 		}else {
-			if(antigoP!= p  && antigoP != null)
-				tempoTotal ++;		
-			System.out.println("tempo: "+ tempoTotal);
-			System.out.println("p: "+ p.getIdProcesso());
-	
-			if(p.getEstado() == Estados.PRONTO && p.getTempoInit() == -1)
-				p.setTempoInit(tempoTotal);
 			antigoP = p;
+			if(p.getTempoInit() == -1)
+				p.setTempoInit(tempoTotal);
 			p.setRealBust(p.getRealBust() - 1);
 			tempoTotal++;
 			bustTotal++;
@@ -30,7 +24,6 @@ public class PriorityP extends AbstractEscalonador  {
 				prontos.remove(p);
 			}
 		}
-		return true;
 	}
 
 	@Override
@@ -43,17 +36,11 @@ public class PriorityP extends AbstractEscalonador  {
 				aux = p;
 			}
 		}
-		if(aux == null) {
-			return null;
-		}else {
-			if(antigoP != aux && antigoP != null) {
-					troca++;
-					antigoP.setEstado(Estados.PRONTO);
-					System.out.println("tempo: "+ tempoTotal);
-					System.out.println("troca");
-			}
-			return aux;
+		if(antigoP != aux && antigoP != null) {
+			troca++;
+			tempoTotal ++;
 		}
+		return aux;
 	}
 
 }

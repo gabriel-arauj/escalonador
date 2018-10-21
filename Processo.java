@@ -69,4 +69,9 @@ public class Processo {
 		this.estado = estado;
 	}
 
+	public void setIdProcesso(int idProcesso) {
+		this.idProcesso = idProcesso;
+	}
+	
+
 }

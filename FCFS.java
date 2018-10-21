@@ -7,24 +7,22 @@ public class FCFS extends AbstractEscalonador {
 	}
 
 	@Override
-	public boolean run(Processo p) {
-		if (p == null) {
-			tempoTotal++; //tempo total
-			return false;
-		}else {
+	public void run(Processo p) {
+		if (p == null)
+			tempoTotal++;
+		else{
 			if(p.getEstado() == Estados.PRONTO)
 				p.setTempoInit(tempoTotal);
-			long bust = p.getBustTime();
-			for (int i = 0; i < bust; i++) {
-				tempoTotal++;
-				bustTotal++;
-			}
+			tempoTotal += p.getBustTime();
+			bustTotal += p.getBustTime();
 			p.terminar(tempoTotal);
 			terminados.add(p);
-			tempoTotal++; //tempo total
-			
+			prontos.remove(p);
+			if(quantProcess != terminados.size()) {
+				troca++;
+				tempoTotal++; //add 1 para tempo de troca
+			}	
 		}
-		return true;
 	}
 
 	@Override
@@ -32,8 +30,6 @@ public class FCFS extends AbstractEscalonador {
 		iteratorProntos = prontos.iterator();
 		if (iteratorProntos.hasNext()) {
 			Processo p = iteratorProntos.next();
-			troca++;
-			iteratorProntos.remove();
 			return p;
 		}
 		return null;
